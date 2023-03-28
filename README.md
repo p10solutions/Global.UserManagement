@@ -1,5 +1,5 @@
 # Global.UserManagement 
-é um microserviço que lida com o dominio de Usuários, utilizando uma Web API .NET 6.
+É um microserviço que lida com o dominio de Usuários, utilizando uma Web API .NET 6.
 O microserviço <b>Global.UserManagement</b> realiza uma comunicação via RabbitMQ com o microserviço de Aduitoria <b>Global.UserAudit</b> (https://github.com/p10solutions/Global.UserAudit), 
 neste microserviço se encontra o docker-compose para subir o servidor do RabbitMQ.
 
