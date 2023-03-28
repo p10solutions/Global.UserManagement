@@ -20,11 +20,13 @@ namespace Global.UserManagement.Api.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetUserResponse>))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAsync()
             => await SendAsync(new GetUserQuery());
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetUserByIdResponse))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAsync(Guid id)
             => await SendAsync(new GetUserByIdQuery(id));
 

@@ -36,7 +36,6 @@ namespace Global.UserManagement.Infra.IoC
             {
                 bus.UsingRabbitMq((ctx, busConfigurator) =>
                 {
-                    //busConfigurator.ConfigureEndpoints(ctx, new KebabCaseEndpointNameFormatter("dev", false));
                     busConfigurator.Host(configuration.GetConnectionString("RabbitMq"));
                 });
             });

@@ -1,4 +1,6 @@
+using Global.UserManagement.Infra.Data;
 using Global.UserManagement.Infra.IoC;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +23,14 @@ builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<UserManagementContext>();
+    context.Database.Migrate();
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -33,7 +43,5 @@ app.UseCors("corsapp");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

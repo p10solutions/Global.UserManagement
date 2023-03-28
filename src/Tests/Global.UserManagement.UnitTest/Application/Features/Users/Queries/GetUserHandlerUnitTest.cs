@@ -9,7 +9,7 @@ using Moq;
 
 namespace Global.UserManagement.UnitTest.Application.Features.Users.Queries
 {
-    public class GetUserUnitTest
+    public class GetUserHandlerUnitTest
     {
         readonly Mock<IUserRepository> _userRepository;
         readonly Mock<ILogger<GetUserHandler>> _logger;
@@ -17,7 +17,7 @@ namespace Global.UserManagement.UnitTest.Application.Features.Users.Queries
         readonly Fixture _fixture;
         readonly GetUserHandler _handler;
 
-        public GetUserUnitTest()
+        public GetUserHandlerUnitTest()
         {
             _userRepository = new Mock<IUserRepository>();
             _logger = new Mock<ILogger<GetUserHandler>>();

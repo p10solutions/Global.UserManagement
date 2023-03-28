@@ -1,4 +1,5 @@
 using AutoFixture;
+using Global.UserAudit.Application.Models.Events.Users;
 using Global.UserManagement.Application.Contracts.Events;
 using Global.UserManagement.Application.Contracts.Notifications;
 using Global.UserManagement.Application.Contracts.Repositories;
@@ -10,7 +11,7 @@ using Moq;
 
 namespace Global.UserManagement.UnitTest.Application.Features.Users.Commands
 {
-    public class UpdateUserUnitTest
+    public class UpdateUserHandlerUnitTest
     {
         readonly Mock<IUserRepository> _userRepository;
         readonly Mock<IUserProducer> _userProducer;
@@ -19,7 +20,7 @@ namespace Global.UserManagement.UnitTest.Application.Features.Users.Commands
         readonly Fixture _fixture;
         readonly UpdateUserHandler _handler;
 
-        public UpdateUserUnitTest()
+        public UpdateUserHandlerUnitTest()
         {
             _userRepository = new Mock<IUserRepository>();
             _userProducer = new Mock<IUserProducer>();
@@ -38,6 +39,7 @@ namespace Global.UserManagement.UnitTest.Application.Features.Users.Commands
 
             Assert.False(Guid.Empty == response);
             _userRepository.Verify(x => x.UpdateAsync(It.IsAny<User>()), Times.Once);
+            _userProducer.Verify(x => x.SendUserUpdatedAsync(It.IsAny<UserUpdatedEvent>()), Times.Once);
         }
 
         [Fact]
@@ -54,6 +56,7 @@ namespace Global.UserManagement.UnitTest.Application.Features.Users.Commands
 
             Assert.True(Guid.Empty == response);
             _userRepository.Verify(x => x.UpdateAsync(It.IsAny<User>()), Times.Once);
+            _userProducer.Verify(x => x.SendUserUpdatedAsync(It.IsAny<UserUpdatedEvent>()), Times.Never);
         }
     }
 }

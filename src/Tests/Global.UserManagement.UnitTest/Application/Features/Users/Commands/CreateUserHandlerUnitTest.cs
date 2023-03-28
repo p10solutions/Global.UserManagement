@@ -7,10 +7,11 @@ using Global.UserManagement.Application.Entities;
 using Global.UserManagement.Application.Models.Notifications;
 using Global.UserManagement.Application.Features.Users.Commands.CreateUser;
 using Global.UserManagement.Application.Contracts.Events;
+using Global.UserAudit.Application.Models.Events.Users;
 
 namespace Global.UserManagement.UnitTest.Application.Features.Users.Commands
 {
-    public class CreateUserUnitTest
+    public class CreateUserHandlerUnitTest
     {
         readonly Mock<IUserRepository> _userRepository;
         readonly Mock<IUserProducer> _userProducer;
@@ -19,7 +20,7 @@ namespace Global.UserManagement.UnitTest.Application.Features.Users.Commands
         readonly Fixture _fixture;
         readonly CreateUserHandler _handler;
 
-        public CreateUserUnitTest()
+        public CreateUserHandlerUnitTest()
         {
             _userRepository = new Mock<IUserRepository>();
             _userProducer = new Mock<IUserProducer>();
@@ -38,6 +39,7 @@ namespace Global.UserManagement.UnitTest.Application.Features.Users.Commands
 
             Assert.False(Guid.Empty == response);
             _userRepository.Verify(x => x.AddAsync(It.IsAny<User>()), Times.Once);
+            _userProducer.Verify(x => x.SendUserInsertedAsync(It.IsAny<UserInsertedEvent>()), Times.Once);
         }
 
         [Fact]
@@ -54,6 +56,7 @@ namespace Global.UserManagement.UnitTest.Application.Features.Users.Commands
 
             Assert.True(Guid.Empty == response);
             _userRepository.Verify(x => x.AddAsync(It.IsAny<User>()), Times.Once);
+            _userProducer.Verify(x => x.SendUserInsertedAsync(It.IsAny<UserInsertedEvent>()), Times.Never);
         }
     }
 }
